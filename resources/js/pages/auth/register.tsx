@@ -14,6 +14,7 @@ type RegisterForm = {
     email: string;
     password: string;
     password_confirmation: string;
+    state: string;
 };
 
 export default function Register() {
@@ -22,6 +23,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
+        state: '',
     });
 
     const submit: FormEventHandler = (e) => {
@@ -99,6 +101,20 @@ export default function Register() {
                             placeholder="Confirm password"
                         />
                         <InputError message={errors.password_confirmation} />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="state">都道府県</Label>
+                        <Input
+                            id="state"
+                            type="text"xi
+                            required
+                            value={data.state}
+                            onChange={(e) => setData('state', e.target.value)}
+                            disabled={processing}
+                            placeholder="都道府県"
+                        />
+                        <InputError message={errors.state} />
                     </div>
 
                     <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
