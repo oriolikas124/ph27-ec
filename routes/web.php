@@ -7,16 +7,20 @@ use App\Http\Controllers\SampleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
-
+Route::get('/', [ProductController::class, 'index'])->name('products.index');
 Route::get('/sample', [SampleController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
-Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::delete('/cart', [CartController::class, 'destroy'])->name('cart.destroy');
+
+Route::get('/cart', [ProductController::class, 'cartIndex'])->name('cart.index');
+Route::post('/cart', [ProductController::class, 'cartStore'])->name('cart.store');
+Route::post('/cart/update', [ProductController::class, 'cartUpdate'])->name('cart.update');
+Route::post('/cart/remove', [ProductController::class, 'cartRemove'])->name('cart.remove');
+Route::post('/cart/clear', [ProductController::class, 'cartClear'])->name('cart.clear');
+
+Route::get('/checkout/shipping', [ProductController::class, 'shippingForm'])->name('checkout.shipping');
+Route::post('/checkout/shipping', [ProductController::class, 'storeShipping'])->name('checkout.shipping.store');
+Route::get('/checkout/review', [ProductController::class, 'review'])->name('checkout.review');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
